@@ -46,7 +46,9 @@ void matrice_affichage (char mat[N][N]){
     printf("\n");
 }
 
-
+int limite(int nb){
+  return ((19  < nb) || (-1 > nb));
+}
 
 pt emplacement(char mat[N][N]){
   /*D: mat: matrice de caractere*/
@@ -63,13 +65,13 @@ pt emplacement(char mat[N][N]){
     scanf("%d",&(coord.y));
     coord.x = coord.x - 1;
     coord.y = coord.y - 1;
-    while ((19  < coord.x) || (-1 > coord.x)){
+    while (limite(coord.x)){
       printf("\nSaisie invalide\n");
       printf("\nSaisissez la ligne de la case ou ajouter le pion\n");
       scanf("%d",&(coord.x));
     }
 
-    while ((19  < coord.y) || (-1 > coord.y)){
+    while (limite(coord.y)){
       printf("\nSaisie invalide\n");
       printf("\nSaisissez la colonne de la case ou ajouter le pion\n");
       scanf("%d",&(coord.y));
@@ -94,10 +96,14 @@ void modifCase(char mat[N][N],int tour,pt coord,int *statut){
 
   if ((coord.x == -1) && (coord.y==-1)){
     if (tour%2==0){
-      printf("\nVous avez abandonne la partie, le joueur o a gagne\n");
+      printf("\n------------------------------------------------\n");
+      printf("\nVous avez ABANDONNE la partie, le JOUEUR o A GAGNE\n");
+      printf("\n------------------------------------------------\n");
     }
     else {
-      printf("\nVous avez abandonne la partie, le joueur x a gagne\n");
+      printf("\n------------------------------------------------\n");
+      printf("\nVous avez ABANDONNE la partie, le JOUEUR x A GAGNE\n");
+      printf("\n------------------------------------------------\n");
     }
     *statut=0;
   }
@@ -111,7 +117,79 @@ void modifCase(char mat[N][N],int tour,pt coord,int *statut){
   }
 }
 
-
+void alignement(char mat[N][N],pt coord, int *statut) {
+  int i,compteur;
+  i=-4;
+  compteur=0;
+  /*Verification Horizontale*/ 
+  while ((i<=4) && (i>=-4) && (compteur < 5)){
+    if (!(limite((coord.y) + i))){
+      if (mat[coord.x][coord.y]==mat[coord.x][(coord.y)+i]){ 
+	compteur = compteur + 1; /*Compte 2 fois voir Pourquoi De meme sur les autres*/
+    }
+      else {
+	compteur = 0;
+      }
+      /* if (compteur >= 5){
+	*statut = 0;
+	}*/
+    }
+    i++;
+    }
+  /*Verification Verticale*/
+  while ((i<=4) && (i>=-4) && (compteur < 5)){
+    if(!(limite((coord.x) + i))){
+	if (mat[coord.x][coord.y]==mat[(coord.x)+i][coord.y]){
+	  compteur = compteur + 1;
+	  printf("%d",compteur);
+	}
+	else {
+	  compteur = 0;
+	}
+	/*	if (compteur >= 5){
+	*statut = 0;
+	}*/
+      }
+    i++;
+  }
+  
+  /*Verification Diagonale / */
+  while ((i<=4) && (i>=-4) && (compteur < 5)){
+    if (!(limite((coord.y) - i)) && (!(limite((coord.x)+i)))) {
+      if (mat[coord.x][coord.y]==mat[(coord.x)+i][(coord.y)-i]){
+	compteur = compteur + 1;
+	printf("%d",compteur);
+      }
+      else {
+	compteur = 0;
+      }
+      /* if (compteur >= 5){
+	*statut = 0;
+	}*/
+    }
+    i++;
+  }
+  /*  Verification Diagonale \ */
+  while ((i<=4) && (i>=-4) && (compteur < 5)){
+    if (!(limite((coord.y) + i)) && (!(limite((coord.x)-i)))){
+      if (mat[coord.x][coord.y]==mat[(coord.x)-i][(coord.y)-i]){
+	compteur = compteur + 1;
+	printf("%d",compteur);
+      }
+      else {
+	compteur = 0;
+      }
+      /*   if (compteur >= 5){
+	*statut = 0;
+	}*/
+    }
+    i++;
+  }
+  if (compteur >= 5){
+    *statut = 0;
+  }  
+}
+  
 
 int main(){
 
@@ -123,11 +201,13 @@ int main(){
   matrice_init(tableau);
   nbt = 0;
 
-  while ( statut && nbt<5){
+  while ( statut && nbt<20){
     nbt++;
     matrice_affichage(tableau);
     coord = emplacement(tableau);
     modifCase(tableau,nbt,coord,&statut);
+    alignement(tableau,coord,&statut);
+    printf("\n%d\n",statut);
   }
   matrice_affichage(tableau);
   return 1;
