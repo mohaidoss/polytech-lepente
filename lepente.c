@@ -125,8 +125,8 @@ void alignement(char mat[N][N],pt coord, int *statut) {
   while ((i<=4) && (i>=-4) && (compteur < 5)){
     if (!(limite((coord.y) + i))){
       if (mat[coord.x][coord.y]==mat[coord.x][(coord.y)+i]){ 
-	compteur = compteur + 1; /*Compte 2 fois voir Pourquoi De meme sur les autres*/
-    }
+	compteur = compteur + 1; /*Compte 2 fois voir Pourquoi; De meme sur les autres*/
+      }
       else {
 	compteur = 0;
       }
@@ -135,7 +135,8 @@ void alignement(char mat[N][N],pt coord, int *statut) {
 	}*/
     }
     i++;
-    }
+  }
+  i=-4;
   /*Verification Verticale*/
   while ((i<=4) && (i>=-4) && (compteur < 5)){
     if(!(limite((coord.x) + i))){
@@ -152,7 +153,7 @@ void alignement(char mat[N][N],pt coord, int *statut) {
       }
     i++;
   }
-  
+  i=-4;
   /*Verification Diagonale / */
   while ((i<=4) && (i>=-4) && (compteur < 5)){
     if (!(limite((coord.y) - i)) && (!(limite((coord.x)+i)))) {
@@ -169,6 +170,7 @@ void alignement(char mat[N][N],pt coord, int *statut) {
     }
     i++;
   }
+  i=-4;
   /*  Verification Diagonale \ */
   while ((i<=4) && (i>=-4) && (compteur < 5)){
     if (!(limite((coord.y) + i)) && (!(limite((coord.x)-i)))){
