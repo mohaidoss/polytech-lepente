@@ -23,8 +23,10 @@ void matrice_init(char mat[N][N]){
   }
 }
 
+
+
 void matrice_affichage (char mat[N][N]){
-    /*D: mat: matrice d'entiers*/
+    /*D: mat: matrice de caractere*/
 
     int i,j;
     /*VL: i,j : entiers*/
@@ -44,59 +46,88 @@ void matrice_affichage (char mat[N][N]){
     printf("\n");
 }
 
+
+
 pt emplacement(char mat[N][N]){
+  /*D: mat: matrice de caractere*/
   pt coord;
   int plein = 1;
+  /*VL: coord: structure donnant les coordonnees, plein: booleen indiquant si la case est pleine*/
   
-  while (plein){
-    
+  while (plein && (coord.x!=-1 && coord.y!=-1)){
+    /*test si sort de la matrice*/
+    printf("Entrer les coordonnees (pour abandonner entrer 0,0)");
     printf("\nSaisissez la ligne de la case ou ajouter le pion\n");
     scanf("%d",&(coord.x));
     printf("\nSaisissez la colonne de la case ou ajouter le pion\n");
     scanf("%d",&(coord.y));
     coord.x = coord.x - 1;
     coord.y = coord.y - 1;
-    while ((19  < coord.x) || (0 > coord.x)){
+    while ((19  < coord.x) || (-1 > coord.x)){
       printf("\nSaisie invalide\n");
       printf("\nSaisissez la ligne de la case ou ajouter le pion\n");
       scanf("%d",&(coord.x));
     }
 
-    while ((19  < coord.y) || (0 > coord.y)){
+    while ((19  < coord.y) || (-1 > coord.y)){
       printf("\nSaisie invalide\n");
       printf("\nSaisissez la colonne de la case ou ajouter le pion\n");
       scanf("%d",&(coord.y));
     }
-    plein = (mat[coord.x][coord.y]!='.');
-    if (plein) {
-      printf("\nLa case est pleine, resaisissez les coordonnées\n");
+
+    if ((coord.x != -1) && (coord.y!=-1)){
+      plein = (mat[coord.x][coord.y]!='.');
+      if (plein) {
+	printf("\nLa case est pleine, resaisissez les coordonnées\n");
+      }
     }
   }
   return coord;
 }
  
-void modifCase(char mat[N][N],int Tour,pt coord){
-  if (Tour%2==0){
-    mat[coord.x][coord.y]='x';
+
+
+
+void modifCase(char mat[N][N],int tour,pt coord,int *statut){
+  /*D/R: mat: matrice de caractere, statut: entier, indique si la partie en cours continue*/
+  /*D: tour: entier indiquant le nombre de tours ,  coord: structure donnant les coordonnees d'un point*/
+
+  if ((coord.x == -1) && (coord.y==-1)){
+    if (tour%2==0){
+      printf("\nVous avez abandonne la partie, le joueur o a gagne\n");
+    }
+    else {
+      printf("\nVous avez abandonne la partie, le joueur x a gagne\n");
+    }
+    *statut=0;
   }
-  else {
-    mat[coord.x][coord.y]='o';
+  else{
+    if (tour%2==0){
+      mat[coord.x][coord.y]='x';
+    }
+    else {
+      mat[coord.x][coord.y]='o';
+    }
   }
 }
 
 
 
 int main(){
+
   char tableau[N][N];
   pt coord;
-  int i,nbt;
+  int nbt;
+  int statut = 1;
+
   matrice_init(tableau);
   nbt = 0;
-  for (i=0;i<2;i++){
+
+  while ( statut && nbt<5){
     nbt++;
     matrice_affichage(tableau);
     coord = emplacement(tableau);
-    modifCase(tableau,nbt,coord);
+    modifCase(tableau,nbt,coord,&statut);
   }
   matrice_affichage(tableau);
   return 1;
