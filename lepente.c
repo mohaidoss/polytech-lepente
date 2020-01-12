@@ -58,23 +58,17 @@ pt emplacement(char mat[N][N]){
   
   while (plein && (coord.x!=-1 && coord.y!=-1)){
     /*test si sort de la matrice*/
-    printf("Entrer les coordonnees (pour abandonner entrer 0,0)");
-    printf("\nSaisissez la ligne de la case ou ajouter le pion\n");
-    scanf("%d",&(coord.x));
-    printf("\nSaisissez la colonne de la case ou ajouter le pion\n");
-    scanf("%d",&(coord.y));
+    printf("Entrer les coordonnees (pour abandonner entrer 0,0)\n");
+    scanf("%d, %d",&(coord.x),&(coord.y));
+    printf("(%d, %d)",coord.x,coord.y);
     coord.x = coord.x - 1;
     coord.y = coord.y - 1;
-    while (limite(coord.x)){
+    while (limite(coord.x) || limite(coord.y)){
       printf("\nSaisie invalide\n");
-      printf("\nSaisissez la ligne de la case ou ajouter le pion\n");
-      scanf("%d",&(coord.x));
-    }
-
-    while (limite(coord.y)){
-      printf("\nSaisie invalide\n");
-      printf("\nSaisissez la colonne de la case ou ajouter le pion\n");
-      scanf("%d",&(coord.y));
+      printf("Entrer les coordonnees (pour abandonner entrer 0,0)\n");
+      scanf("%d, %d",&(coord.x),&(coord.y));
+      coord.x = coord.x - 1;
+      coord.y = coord.y - 1;
     }
 
     if ((coord.x != -1) && (coord.y!=-1)){
