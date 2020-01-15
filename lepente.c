@@ -59,14 +59,14 @@ pt emplacement(char mat[N][N]){
   while (plein && (coord.x!=-1 && coord.y!=-1)){
     /*test si sort de la matrice*/
     printf("Entrer les coordonnees (pour abandonner entrer 0,0)\n");
-    scanf("%d, %d",&(coord.x),&(coord.y));
+    scanf("%d,%d",&(coord.x),&(coord.y));
     printf("(%d, %d)",coord.x,coord.y);
     coord.x = coord.x - 1;
     coord.y = coord.y - 1;
     while (limite(coord.x) || limite(coord.y)){
       printf("\nSaisie invalide\n");
       printf("Entrer les coordonnees (pour abandonner entrer 0,0)\n");
-      scanf("%d, %d",&(coord.x),&(coord.y));
+      scanf("%d,%d",&(coord.x),&(coord.y));
       coord.x = coord.x - 1;
       coord.y = coord.y - 1;
     }
@@ -124,9 +124,9 @@ void alignement(char mat[N][N],pt coord, int *statut) {
       else {
 	compteur = 0;
       }
-      /* if (compteur >= 5){
+       if (compteur >= 5){
 	*statut = 0;
-	}*/
+	}
     }
     i++;
   }
@@ -141,9 +141,9 @@ void alignement(char mat[N][N],pt coord, int *statut) {
 	else {
 	  compteur = 0;
 	}
-	/*	if (compteur >= 5){
+		if (compteur >= 5){
 	*statut = 0;
-	}*/
+	}
       }
     i++;
   }
@@ -158,9 +158,9 @@ void alignement(char mat[N][N],pt coord, int *statut) {
       else {
 	compteur = 0;
       }
-      /* if (compteur >= 5){
+       if (compteur >= 5){
 	*statut = 0;
-	}*/
+	}
     }
     i++;
   }
@@ -175,9 +175,9 @@ void alignement(char mat[N][N],pt coord, int *statut) {
       else {
 	compteur = 0;
       }
-      /*   if (compteur >= 5){
+         if (compteur >= 5){
 	*statut = 0;
-	}*/
+	}
     }
     i++;
   }
@@ -206,5 +206,12 @@ int main(){
     printf("\n%d\n",statut);
   }
   matrice_affichage(tableau);
+
+  if((statut==0) && (nbt%2==0) && (coord.x!= -1)){
+    printf("BRAVO ! Le joueur x a gagné\n");
+  }
+  if((statut==0) && (nbt%2!=0)&& (coord.x!= -1)){
+    printf("BRAVO ! Le joueur o a gagné\n");
+  }
   return 1;
 }
