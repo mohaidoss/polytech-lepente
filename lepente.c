@@ -188,6 +188,37 @@ void alignement(char mat[N][N],pt coord, int *statut) {
 
 
 
+void prise(char mat[N][N], pt coord, int *statut, int *compteur){
+  /*D/R: mat: matrice de caractères      statut: entier donnant le statut de la partie
+  compteur: entier comptant le nombre de prises*/
+  /*D: coord: structure de type pt donnant les coordonnées du pion joué*/
+
+  /*test vertical bas*/
+  if((!limite(coord.x+3)) && (mat[coord.x][coord.y])==(mat[coord.x+3][coord.y])){
+	if((mat[coord.x+1][coord.y]==mat[coord.x+2][coord.y]) && (mat[coord.x+1][coord.y] !='.')){
+	  if(mat[coord.x+1][coord.y]!=mat[coord.x][coord.y]){
+	    mat[coord.x+1][coord.y]= '.';
+	    mat[coord.x+2][coord.y]= '.';
+	    compteur++;
+	  }
+	}
+  }
+
+  /*test vertical haut*/
+  if((!limite(coord.x-3)) && (mat[coord.x][coord.y])==(mat[coord.x-3][coord.y])){
+    if((mat[coord.x-1][coord.y]==mat[coord.x-2][coord.y]) && (mat[coord.x-1][coord.y] !='.')){
+	  if(mat[coord.x-1][coord.y]!=mat[coord.x][coord.y]){
+	    mat[coord.x-1][coord.y]= '.';
+	    mat[coord.x-2][coord.y]= '.';
+	    compteur++;
+	  }
+	}
+  }
+}
+
+  
+
+
   
 
 int main(){
