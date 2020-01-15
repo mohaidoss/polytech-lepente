@@ -1,5 +1,6 @@
 #define N 19
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct {
   int x;
@@ -136,7 +137,6 @@ void alignement(char mat[N][N],pt coord, int *statut) {
     if(!(limite((coord.x) + i))){
 	if (mat[coord.x][coord.y]==mat[(coord.x)+i][coord.y]){
 	  compteur = compteur + 1;
-	  printf("%d",compteur);
 	}
 	else {
 	  compteur = 0;
@@ -153,7 +153,6 @@ void alignement(char mat[N][N],pt coord, int *statut) {
     if (!(limite((coord.y) - i)) && (!(limite((coord.x)+i)))) {
       if (mat[coord.x][coord.y]==mat[(coord.x)+i][(coord.y)-i]){
 	compteur = compteur + 1;
-	printf("%d",compteur);
       }
       else {
 	compteur = 0;
@@ -170,7 +169,6 @@ void alignement(char mat[N][N],pt coord, int *statut) {
     if (!(limite((coord.y) + i)) && (!(limite((coord.x)-i)))){
       if (mat[coord.x][coord.y]==mat[(coord.x)-i][(coord.y)-i]){
 	compteur = compteur + 1;
-	printf("%d",compteur);
       }
       else {
 	compteur = 0;
@@ -194,25 +192,88 @@ void prise(char mat[N][N], pt coord, int *statut, int *compteur){
   /*D: coord: structure de type pt donnant les coordonnées du pion joué*/
 
   /*test vertical bas*/
-  if((!limite(coord.x+3)) && (mat[coord.x][coord.y])==(mat[coord.x+3][coord.y])){
-	if((mat[coord.x+1][coord.y]==mat[coord.x+2][coord.y]) && (mat[coord.x+1][coord.y] !='.')){
-	  if(mat[coord.x+1][coord.y]!=mat[coord.x][coord.y]){
+  if ((!limite(coord.x+3)) && (mat[coord.x][coord.y])==(mat[coord.x+3][coord.y])){
+	if ((mat[coord.x+1][coord.y]==mat[coord.x+2][coord.y]) && (mat[coord.x+1][coord.y] !='.')){
+	  if (mat[coord.x+1][coord.y]!=mat[coord.x][coord.y]){
 	    mat[coord.x+1][coord.y]= '.';
 	    mat[coord.x+2][coord.y]= '.';
-	    compteur++;
+	    (*compteur)++;
 	  }
 	}
   }
 
   /*test vertical haut*/
-  if((!limite(coord.x-3)) && (mat[coord.x][coord.y])==(mat[coord.x-3][coord.y])){
-    if((mat[coord.x-1][coord.y]==mat[coord.x-2][coord.y]) && (mat[coord.x-1][coord.y] !='.')){
-	  if(mat[coord.x-1][coord.y]!=mat[coord.x][coord.y]){
+  if ((!limite(coord.x-3)) && (mat[coord.x][coord.y])==(mat[coord.x-3][coord.y])){
+    if ((mat[coord.x-1][coord.y]==mat[coord.x-2][coord.y]) && (mat[coord.x-1][coord.y] !='.')){
+	  if (mat[coord.x-1][coord.y]!=mat[coord.x][coord.y]){
 	    mat[coord.x-1][coord.y]= '.';
 	    mat[coord.x-2][coord.y]= '.';
-	    compteur++;
+	    (*compteur)++;
 	  }
 	}
+  }
+  /*test horizontal droite*/
+  if ((!limite(coord.y+3)) && (mat[coord.x][coord.y])==(mat[coord.x][coord.y+3])){
+    if ((mat[coord.x][coord.y+1]==mat[coord.x][coord.y+2]) && (mat[coord.x][coord.y+1] !='.')){
+	  if (mat[coord.x][coord.y+1]!=mat[coord.x][coord.y]){
+	    mat[coord.x][coord.y+1]= '.';
+	    mat[coord.x][coord.y+2]= '.';
+	    (*compteur)++;
+	  }
+	}
+  }
+  /*test horizontal gauche*/
+  if ((!limite(coord.y-3)) && (mat[coord.x][coord.y])==(mat[coord.x][coord.y-3])){
+    if ((mat[coord.x][coord.y-1]==mat[coord.x][coord.y-2]) && (mat[coord.x][coord.y-1] !='.')){
+	  if (mat[coord.x][coord.y-1]!=mat[coord.x][coord.y]){
+	    mat[coord.x][coord.y-1]= '.';
+	    mat[coord.x][coord.y-2]= '.';
+	    (*compteur)++;
+	  }
+	}
+  }
+  /*test diagonale /" */
+  if ((!limite(coord.y+3)) && (!limite(coord.x-3)) && (mat[coord.x][coord.y])==(mat[coord.x-3][coord.y+3])){
+    if ((mat[coord.x-1][coord.y+1]==mat[coord.x-2][coord.y+2]) && (mat[coord.x-1][coord.y+1] !='.')){
+	  if (mat[coord.x-1][coord.y+1]!=mat[coord.x][coord.y]){
+	    mat[coord.x-1][coord.y+1]= '.';
+	    mat[coord.x-2][coord.y+2]= '.';
+	    (*compteur)++;
+	  }
+	}
+  }
+  /*test diagonale ,/ */
+  if ((!limite(coord.y-3)) && (!limite(coord.x+3)) && (mat[coord.x][coord.y])==(mat[coord.x+3][coord.y-3])){
+    if ((mat[coord.x+1][coord.y-1]==mat[coord.x+2][coord.y-2]) && (mat[coord.x+1][coord.y-1] !='.')){
+	  if (mat[coord.x+1][coord.y-1]!=mat[coord.x][coord.y]){
+	    mat[coord.x+1][coord.y-1]= '.';
+	    mat[coord.x+2][coord.y-2]= '.';
+	    (*compteur)++;
+	  }
+	}
+  }
+  /*test diagonal \,*/
+  if ((!limite(coord.y+3)) && (!limite(coord.x+3)) && (mat[coord.x][coord.y])==(mat[coord.x+3][coord.y+3])){
+    if ((mat[coord.x+1][coord.y+1]==mat[coord.x+2][coord.y+2]) && (mat[coord.x+1][coord.y+1] !='.')){
+	  if (mat[coord.x+1][coord.y+1]!=mat[coord.x][coord.y]){
+	    mat[coord.x+1][coord.y+1]= '.';
+	    mat[coord.x+2][coord.y+2]= '.';
+	    (*compteur)++;
+	  }
+	}
+  }
+  /*test diagonal "\ */
+  if ((!limite(coord.y-3)) && (!limite(coord.x-3)) && (mat[coord.x][coord.y])==(mat[coord.x-3][coord.y-3])){
+    if ((mat[coord.x-1][coord.y-1]==mat[coord.x-2][coord.y-2]) && (mat[coord.x-1][coord.y-1] !='.')){
+	  if (mat[coord.x-1][coord.y-1]!=mat[coord.x][coord.y]){
+	    mat[coord.x-1][coord.y-1]= '.';
+	    mat[coord.x-2][coord.y-2]= '.';
+	    (*compteur)++;
+	  }
+	}
+  }
+  if (*compteur >= 5){
+	  *statut = 0;
   }
 }
 
@@ -226,25 +287,42 @@ int main(){
   char tableau[N][N];
   pt coord;
   int nbt;
+  int compteurpair=0;
+  int compteurimpair=0;
   int statut = 1;
 
   matrice_init(tableau);
   nbt = 0;
 
-  while ( statut && nbt<20){
+  while (statut && nbt<20){
     nbt++;
+    system("clear");
+
+    printf("\n///////////////");
+    printf("\n/ O a %d prise /",compteurpair);
+    printf("\n/ X a %d prise /",compteurimpair);
+    printf("\n///////////////\n");
+
     matrice_affichage(tableau);
     coord = emplacement(tableau);
     modifCase(tableau,nbt,coord,&statut);
-    alignement(tableau,coord,&statut);
-    printf("\n%d\n",statut);
+
+    if (nbt%2){
+    	prise(tableau,coord,&statut,&compteurpair);
+    }
+    else prise(tableau,coord,&statut,&compteurimpair);
+
+    if (statut){
+    	alignement(tableau,coord,&statut);
+    }
+
   }
   matrice_affichage(tableau);
 
   if((statut==0) && (nbt%2==0) && (coord.x!= -1)){
     printf("BRAVO ! Le joueur x a gagné\n");
   }
-  if((statut==0) && (nbt%2!=0)&& (coord.x!= -1)){
+  else if((statut==0) && (nbt%2!=0)&& (coord.x!= -1)){
     printf("BRAVO ! Le joueur o a gagné\n");
   }
   return 1;
