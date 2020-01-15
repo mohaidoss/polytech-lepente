@@ -116,7 +116,7 @@ void alignement(char mat[N][N],pt coord, int *statut) {
   i=-4;
   compteur=0;
   /*Verification Horizontale*/ 
-  while ((i<=4) && (i>=-4) && (compteur < 5)){
+  while ((i<=4) && (compteur < 5)){
     if (!(limite((coord.y) + i))){
       if (mat[coord.x][coord.y]==mat[coord.x][(coord.y)+i]){ 
 	compteur = compteur + 1; /*Compte 2 fois voir Pourquoi; De meme sur les autres*/
@@ -132,7 +132,7 @@ void alignement(char mat[N][N],pt coord, int *statut) {
   }
   i=-4;
   /*Verification Verticale*/
-  while ((i<=4) && (i>=-4) && (compteur < 5)){
+  while ((i<=4) && (compteur < 5)){
     if(!(limite((coord.x) + i))){
 	if (mat[coord.x][coord.y]==mat[(coord.x)+i][coord.y]){
 	  compteur = compteur + 1;
@@ -149,7 +149,7 @@ void alignement(char mat[N][N],pt coord, int *statut) {
   }
   i=-4;
   /*Verification Diagonale / */
-  while ((i<=4) && (i>=-4) && (compteur < 5)){
+  while ((i<=4) && (compteur < 5)){
     if (!(limite((coord.y) - i)) && (!(limite((coord.x)+i)))) {
       if (mat[coord.x][coord.y]==mat[(coord.x)+i][(coord.y)-i]){
 	compteur = compteur + 1;
@@ -166,7 +166,7 @@ void alignement(char mat[N][N],pt coord, int *statut) {
   }
   i=-4;
   /*  Verification Diagonale \ */
-  while ((i<=4) && (i>=-4) && (compteur < 5)){
+  while ((i<=4) && (compteur < 5)){
     if (!(limite((coord.y) + i)) && (!(limite((coord.x)-i)))){
       if (mat[coord.x][coord.y]==mat[(coord.x)-i][(coord.y)-i]){
 	compteur = compteur + 1;
@@ -185,6 +185,9 @@ void alignement(char mat[N][N],pt coord, int *statut) {
     *statut = 0;
   }  
 }
+
+
+
   
 
 int main(){
