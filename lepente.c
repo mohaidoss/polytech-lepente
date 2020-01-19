@@ -115,15 +115,14 @@ void modifCase(char mat[N][N],int tour,pt coord,int *statut){
 void alignement(char mat[N][N],pt coord, int *statut) {
   int i,compteur;
   i=-4;
-  compteur=0;
+  compteur=1;
   /*Verification Horizontale*/ 
   while ((i<=4) && (compteur < 5)){
-    if (!(limite((coord.y) + i))){
+    if ( i!=0 && !(limite((coord.y) + i))){
       if (mat[coord.x][coord.y]==mat[coord.x][(coord.y)+i]){ 
-	compteur = compteur + 1; /*Compte 2 fois voir Pourquoi; De meme sur les autres*/
-      }
+	compteur = compteur + 1;      }
       else {
-	compteur = 0;
+	compteur = 1;
       }
        if (compteur >= 5){
 	*statut = 0;
@@ -134,12 +133,12 @@ void alignement(char mat[N][N],pt coord, int *statut) {
   i=-4;
   /*Verification Verticale*/
   while ((i<=4) && (compteur < 5)){
-    if(!(limite((coord.x) + i))){
+    if(i!=0 && !(limite((coord.x) + i))){
 	if (mat[coord.x][coord.y]==mat[(coord.x)+i][coord.y]){
 	  compteur = compteur + 1;
 	}
 	else {
-	  compteur = 0;
+	  compteur = 1;
 	}
 		if (compteur >= 5){
 	*statut = 0;
@@ -150,12 +149,12 @@ void alignement(char mat[N][N],pt coord, int *statut) {
   i=-4;
   /*Verification Diagonale / */
   while ((i<=4) && (compteur < 5)){
-    if (!(limite((coord.y) - i)) && (!(limite((coord.x)+i)))) {
+    if (i!=0 && !(limite((coord.y) - i)) && (!(limite((coord.x)+i)))) {
       if (mat[coord.x][coord.y]==mat[(coord.x)+i][(coord.y)-i]){
 	compteur = compteur + 1;
       }
       else {
-	compteur = 0;
+	compteur = 1;
       }
        if (compteur >= 5){
 	*statut = 0;
@@ -166,12 +165,12 @@ void alignement(char mat[N][N],pt coord, int *statut) {
   i=-4;
   /*  Verification Diagonale \ */
   while ((i<=4) && (compteur < 5)){
-    if (!(limite((coord.y) + i)) && (!(limite((coord.x)-i)))){
+    if (i!=0 && !(limite((coord.y) + i)) && (!(limite((coord.x)-i)))){
       if (mat[coord.x][coord.y]==mat[(coord.x)-i][(coord.y)-i]){
 	compteur = compteur + 1;
       }
       else {
-	compteur = 0;
+	compteur = 1;
       }
          if (compteur >= 5){
 	*statut = 0;
@@ -290,40 +289,52 @@ int main(){
   int compteurpair=0;
   int compteurimpair=0;
   int statut = 1;
+  printf("\n/////////////////////////////////");
+  printf("\nJeu du pente \nChoisissez une action :\n \t1.Lancer le jeux\n \t2.Lire les instructions\n");
+  printf("/////////////////////////////////\n");
+  scanf("%d",&statut);
+   switch (statut){
+	case 1:
+		matrice_init(tableau);
+  		nbt = 0;
 
-  matrice_init(tableau);
-  nbt = 0;
+  		while (statut){
+  		  nbt++;
+  		  system("clear");
 
-  while (statut && nbt<20){
-    nbt++;
-    system("clear");
+  		  printf("\n///////////////");
+  		  printf("\n/ O a fait %d prise /",compteurpair);
+  		  printf("\n/ X a fait %d prise /",compteurimpair);
+  		  printf("\n///////////////\n");
 
-    printf("\n///////////////");
-    printf("\n/ O a %d prise /",compteurpair);
-    printf("\n/ X a %d prise /",compteurimpair);
-    printf("\n///////////////\n");
+  		  matrice_affichage(tableau);
+  		  coord = emplacement(tableau);
+  		  modifCase(tableau,nbt,coord,&statut);
 
-    matrice_affichage(tableau);
-    coord = emplacement(tableau);
-    modifCase(tableau,nbt,coord,&statut);
+  		  if (nbt%2){
+  		  	prise(tableau,coord,&statut,&compteurpair);
+  		  }
+  		  else prise(tableau,coord,&statut,&compteurimpair);
 
-    if (nbt%2){
-    	prise(tableau,coord,&statut,&compteurpair);
-    }
-    else prise(tableau,coord,&statut,&compteurimpair);
+  		  if (statut){
+  		  	alignement(tableau,coord,&statut);
+  		  }
 
-    if (statut){
-    	alignement(tableau,coord,&statut);
-    }
+  		}
+  		matrice_affichage(tableau);
 
-  }
-  matrice_affichage(tableau);
-
-  if((statut==0) && (nbt%2==0) && (coord.x!= -1)){
-    printf("BRAVO ! Le joueur x a gagné\n");
-  }
-  else if((statut==0) && (nbt%2!=0)&& (coord.x!= -1)){
-    printf("BRAVO ! Le joueur o a gagné\n");
-  }
-  return 1;
+  		if((statut==0) && (nbt%2==0) && (coord.x!= -1)){
+  		  printf("BRAVO ! Le joueur x a gagné\n");
+  		}
+  		else if((statut==0) && (nbt%2!=0)&& (coord.x!= -1)){
+  		  printf("BRAVO ! Le joueur o a gagné\n");
+  		}
+  		return 1;
+	case 2:
+		printf("\nChaque joueur, O et X, pose l’un après l’autre son symbole sur la grille. O commence toujours la partie.\nIl existe deux façons de gagner la partie :\n\taligner cinq pions de sa couleur\n\tcapturer cinq paires de pions à l’adversaire.\n");
+    		return main();
+	default :
+		printf("\nFin du programme\n");
+		return 1;
+   }
 }
